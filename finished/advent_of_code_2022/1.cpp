@@ -28,18 +28,20 @@ void setIO(const string str = "") {
 int main() {
     setIO("1");
     
-    int acc = 0, out = 0, i;
+    int acc = 0, i;
     string line;
+    vector<int> v;
     
     while (getline(cin, line)) {
-        istringstream iss(line);
-        
-        if (iss >> i) {
-            acc += i;
-        } else {
-            out = max(acc, out);
+        if (!line.empty()) acc += atoi(line.c_str());
+        else {
+            v.push_back(acc);
             acc = 0;
         }
     }
-    cout << out << endl;
+    sort(v.begin(), v.end());
+    auto rev = v.rbegin();
+    
+    cout << "Part 1: " << rev[0] << endl;
+    cout << "Part 2: " << rev[0] + rev[1] + rev[2] << endl;
 }
