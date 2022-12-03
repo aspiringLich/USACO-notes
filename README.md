@@ -1,7 +1,11 @@
 # USACO Notes
+
 ## Data Structures
+
 ### Common Methods
+
 - these are methods that may be shared between data structures
+
 ```cpp
 x.size();               // # of elements
 x.resize();             // resize x to a given element count
@@ -14,7 +18,9 @@ x.insert(y);            // stick y in there somewhere
 ```
 
 ### `array<T>` [docs](https://cplusplus.com/reference/array/array/)
+
 - compile-time size
+
 ```cpp
 //  1 2 4 6 0
 array<int, 5> a;        // int arr w/ len 5
@@ -27,7 +33,9 @@ a.back();               // the back
 ```
 
 ### `vector<T>` [docs](https://cplusplus.com/reference/vector/vector/)
+
 - standard growable array
+
 ```cpp
 vector<int> v;          // empty
 vector<int> v(0, 25);   // 25 0's
@@ -47,7 +55,9 @@ v.clear();              // goodbye
 ```
 
 ### `string` [docs](https://cplusplus.com/reference/string/string/)
+
 - store strings of characters (noway)
+
 ```cpp {linenos=false}
 string s;               // empty string
 string s = "string";    // "string"
@@ -72,7 +82,9 @@ t.pop_back();           // pop a ch, strr -> str
 ```
 
 ### `pair` [docs](https://cplusplus.com/reference/utility/pair/pair/)
+
 - pretty simple: a pair of two types
+
 ```cpp
 pair<int, int> a = {0, 1};
 a.first == 0;
@@ -80,6 +92,7 @@ a.second == 1;
 ```
 
 ### `tuple` [docs](https://cplusplus.com/reference/tuple/tuple/)
+
 ```cpp
 tuple<int, int> pair = {0, 1};
 get<1>(pair); // 1 HAS TO BE CONSTANT
@@ -87,8 +100,10 @@ tuple<string, float, int> tup = {"lala", 0.1, 492};
 ```
 
 ### `unordered_set<T>` [docs](https://cplusplus.com/reference/unordered_set/unordered_set/)
+
 - store unique elements
 - faster for searching by key
+
 ```cpp
 unordered_set<int> s;
 s.insert(1);            // {1}
@@ -101,7 +116,9 @@ s.erase(0);             // does nothing
 ```
 
 ### `set<T>` [docs](https://cplusplus.com/reference/set/set/)
+
 - elements are sorted in order of element
+
 ```cpp
 set<int> s;
 s.insert(1);  // [1]
@@ -116,7 +133,9 @@ for (int element : s) {
 ```
 
 ### `map<T, U>` [docs](https://cplusplus.com/reference/map/map/)
+
 - stores mapped values (U) associated with key values (T)
+
 ```cpp
 map<int, int> m;
 m[1] = 5;
