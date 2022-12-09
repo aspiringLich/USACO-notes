@@ -31,6 +31,9 @@
     "unordered_set": "cpp",
     "vector": "cpp",
     "iosfwd": "cpp",
-    "iostream": "cpp"
+    "iostream": "cpp",
+    "fstream": "cpp",
+    "ostream": "cpp",
+    "cstdio": "cpp"
   }
 }
