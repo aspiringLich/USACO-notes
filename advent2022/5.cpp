@@ -27,7 +27,7 @@ void setIO(const string str = "") {
 #define _range(_x) _x.begin(), _x.end() 
 
 int main() {
-    setIO("5");
+    setIO("input/5");
     const size_t height = 8;
     const size_t size = 9;
     

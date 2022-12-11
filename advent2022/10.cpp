@@ -93,7 +93,7 @@ void part_2(vector<string> &lines) {
 }
 
 int main() {
-    setIO("10");
+    setIO("input/10");
     
     vector<string> lines;
     string line;

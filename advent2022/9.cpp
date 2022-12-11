@@ -54,7 +54,7 @@ int sgn(int val) {
 }
 
 int main() {
-    setIO("9");
+    setIO("input/9");
     
     set<pos> visited_1;
     set<pos> visited_2;

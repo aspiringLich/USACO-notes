@@ -61,7 +61,7 @@ vector<int> get_dir_sizes(item* root) {
 }
 
 int main() {
-    setIO("7");
+    setIO("input/7");
     
     item root = item();
     item* ptr = &root;

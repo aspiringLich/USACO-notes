@@ -81,7 +81,7 @@ int part_2(vector<string> *lines) {
 }
 
 int main() {
-    setIO("3");
+    setIO("input/3");
     
     vector<string> lines;
     string line;

@@ -47,7 +47,7 @@ int part_1_and_2(string input, int len) {
 }
 
 int main() {
-    setIO("6");
+    setIO("input/6");
     
     string input = "";
     cin >> input;

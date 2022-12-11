@@ -26,7 +26,7 @@ void setIO(const string str = "") {
 }
 
 int main() {
-    setIO("1");
+    setIO("input/1");
     
     int acc = 0, i;
     string line;

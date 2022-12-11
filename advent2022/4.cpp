@@ -27,7 +27,7 @@ void setIO(const string str = "") {
 #define _range(_x) _x.begin(), _x.end() 
 
 int main() {
-    setIO("4");
+    setIO("input/4");
     
     string line;
     int ovlp = 0, cntn = 0;

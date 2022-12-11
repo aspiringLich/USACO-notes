@@ -108,7 +108,7 @@ int part_2(vector<int> trees, int width, int height) {
 }
 
 int main() {
-    setIO("8");
+    setIO("input/8");
     
     vector<int> trees;
     int width = 0, height = 0;
