@@ -24,7 +24,8 @@ void setIO(const string str = "") {
 #endif
 }
 
-#define _range(_x) _x.begin(), _x.end() 
+#define _range(_x) _x.begin(), _x.end()
+#define _rrange(_x) _x.rbegin(), _x.rend()
 
 int main() {
     setIO();
