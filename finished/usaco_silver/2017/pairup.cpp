@@ -20,7 +20,10 @@ void setIO(const string str = "") {
 #endif
 }
 
-// http://www.usaco.org/index.php?page=viewproblem2&cpid=738
+// Source: http://www.usaco.org/index.php?page=viewproblem2&cpid=738
+//         USACO 2017 US Open Contest, Silver #1
+// 
+// all test cases passed
 
 int main() {
     setIO("pairup");

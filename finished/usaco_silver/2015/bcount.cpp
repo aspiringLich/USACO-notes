@@ -2,7 +2,7 @@
 using namespace std;
 
 // source: http://www.usaco.org/index.php?page=viewproblem2&cpid=572
-//         USACO 2015 December Silver Contest #3
+//         USACO 2015 December Contest, Silver #3
 //
 // all test cases passed 
 
