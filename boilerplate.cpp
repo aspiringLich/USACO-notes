@@ -6,7 +6,7 @@ using ld = long double;
 using ull = unsigned long long;
 
 #define repeat(_i, _x) for(int _i = 0; _i < (_x); ++_i)
-#define for_range(_i, _start, _end, _itr) for (int _i = (_start); i < (_end); _i += _itr)
+#define for_range(_i, _start, _end, _itr) for (int _i = (_start); _i < (_end); _i += _itr)
 
 void setIO(const string str = "") {
     ios::sync_with_stdio(false);

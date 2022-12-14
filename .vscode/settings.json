@@ -34,6 +34,13 @@
     "iostream": "cpp",
     "fstream": "cpp",
     "ostream": "cpp",
-    "cstdio": "cpp"
+    "cstdio": "cpp",
+    "initializer_list": "cpp",
+    "stacktrace": "cpp",
+    "valarray": "cpp",
+    "__bit_reference": "cpp",
+    "__hash_table": "cpp",
+    "__split_buffer": "cpp",
+    "__tree": "cpp"
   }
 }

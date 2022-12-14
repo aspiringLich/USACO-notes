@@ -28,7 +28,7 @@ void setIO(const string str = "") {
 int main() {
     setIO("input/1");
     
-    int acc = 0, i;
+    int acc = 0;
     string line;
     vector<int> v;
     
