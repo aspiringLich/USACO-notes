@@ -93,7 +93,7 @@ int part_1(vector<sensor>& sensors) {
 const int search_space = 4000000;
 // const int search_space = 20;
 
-int part_2(vector<sensor>& sensors) {
+ull part_2(vector<sensor>& sensors) {
     vector<int> edges[4];
     
     for (sensor s : sensors) {
@@ -142,8 +142,7 @@ int part_2(vector<sensor>& sensors) {
         for (sensor s : sensors) {
             if (s.p.dist(p) <= s.dist) goto jmp_out;
         }
-        cout << endl;
-        cout << "found! " << p.x << ", " << p.y << " (" << p.x * 4000000 + p.y << ")" << endl;
+        return (ull)p.x * (ull)4000000 + (ull)p.y ;
     jmp_out:;
     }
 }
