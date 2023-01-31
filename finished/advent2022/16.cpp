@@ -165,7 +165,7 @@ int main() {
         valve_raw v;
         char name[3];
         sscanf(line.c_str(), 
-            "Valve %2s has flow rate=%d", 
+            "Valve %s has flow rate=%d", 
             &name, 
             &v.rate
         );

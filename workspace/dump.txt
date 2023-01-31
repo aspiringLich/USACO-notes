@@ -1,25 +1,28 @@
 #include <bits/stdc++.h>
+#include <unordered_set>
 using namespace std;
 
 using ll = long long;
 using ld = long double;
 using ull = unsigned long long;
 
-#define repeat(_i, _x) for(int _i = 0; _i < (_x); ++_i)
-#define for_range(_i, _start, _end, _itr) for (int _i = (_start); _i < (_end); _i += _itr)
+#define repeat(_i, _x) for (int _i = 0; _i < (_x); ++_i)
+#define for_range(_i, _start, _end, _itr)                                      \
+    for (int _i = (_start); _i < (_end); _i += _itr)
 
 void setIO(const string str = "") {
     ios::sync_with_stdio(false);
 #ifdef LOCAL // compile with -DLOCAL
     cout << "compiled locally" << endl;
-    if (str.empty()) freopen("test.in", "r", stdin);
+    if (str.empty())
+        freopen("test.in", "r", stdin);
     else {
         freopen((str + ".in").c_str(), "r", stdin);
     }
 #else
-    if (!str.empty()) { 
-        freopen((str + ".in").c_str(),"r",stdin);
-        freopen((str + ".out").c_str(),"w",stdout);
+    if (!str.empty()) {
+        freopen((str + ".in").c_str(), "r", stdin);
+        freopen((str + ".out").c_str(), "w", stdout);
     }
 #endif
 }
@@ -27,252 +30,80 @@ void setIO(const string str = "") {
 #define _range(_x) _x.begin(), _x.end()
 #define _rrange(_x) _x.rbegin(), _x.rend()
 
-struct farm;
+int problem(string input, string output) {
+    // character <x> needs to transform into character <y>
+    // map<char, vector<char>> keys;
+    map<char, char> map;
+    set<char> contained;
 
-vector<farm> farms;
+    for (int i = 0; i < input.size(); i++) {
+        char in = input[i];
+        char out = output[i];
 
-struct farm {
-    int roads;
-    int hay;
-    vector<int> connected;
-    
-    size_t index() {
-        return (this - &farms[0]);
-    }
-    
-    void connect(int i) {
-        roads++;
-        connected.push_back(i);
-        farms[i].roads++;
-        farms[i].connected.push_back(index());
-    }
-    
-    void disconnect(int i) {
-        roads--;
-        connected.erase(find(_range(connected), i));
-        // farms[i].roads--;
-        // farms[i].connected.erase(find(_range(farms[i].connected), index()));
-    }
-};
-
-set<int> _back;
-set<int> _branches;
-set<int>& back = _back;
-set<int>& branches = _branches;
-vector<tuple<int, int, int>> moves;
-
-void trim_branches() {
-    vector<vector<tuple<int, int, int>>*> back_moves;
-    for(int branch : branches) {
-        int prev = branch;
-        int next = farms[branch].connected[0];
-        auto moves = new vector<tuple<int, int, int>>();
-        while (farms[next].roads == 2 && next != 0) {
-            back.erase(next);
-            moves->push_back({prev, next, farms[prev].hay});
-            farms[next].hay += farms[prev].hay;
-            prev = next;
-            next = farms[next].connected[0] == prev ? farms[next].connected[1] : farms[next].connected[0];
+        contained.insert(in);
+        // if weve seen this character before and the output is not the same
+        if (map.count(in) != 0 && out != map[in]) {
+            return -1;
         }
-        farms[next].hay += farms[prev].hay;
-        moves->push_back({prev, next, farms[prev].hay});
-        farms[next].disconnect(prev);
-        if (next != 0) back.insert(next);
-        back_moves.push_back(moves);
+        if (in == out) {
+            continue;
+        }
+        map[in] = out;
     }
-    swap(back, branches);
-    
-    repeat(i, back_moves.size()) {
-        auto& h = *back_moves[i];
-        if (get<2>(h.back()) >= 0) {
-            repeat(j, h.size()) {
-                moves.push_back(h[j]);
+
+    int count = 0;
+    set<char> already_checked;
+    set<char> cycles;
+    // find cycles
+    for (char c : contained) {
+        // if weve seen this character before
+        if (already_checked.count(c) != 0)
+            continue;
+        already_checked.insert(c);
+
+        set<char> visited;
+        while (visited.count(c) == 0) {
+            visited.insert(c);
+            already_checked.insert(c); 
+            
+            if (map.count(c) == 0 || cycles.count(c)) {
+                // break but more
+                goto out;
             }
+            c = map[c];
         }
+        // found a cycle
+        // we resolve by switching one character to a surrogate one
+        set_union(_range(visited), _range(cycles), inserter(cycles, cycles.begin()));
+        count++;
+    out:;
     }
-    repeat(i, back_moves.size()) {
-        auto& h = *back_moves[i];
-        if (get<2>(h.back()) < 0) {
-            for(int j = h.size() - 1; j >= 0; j--) {
-                moves.push_back(h[j]);
-            }
-        }
-    }
-    repeat(i, back_moves.size()) delete(back_moves[i]);
+
+    return count + map.size();
 }
 
 int main() {
     setIO();
-    
-    int len; cin >> len; 
-    
-    farms = vector<farm>(len);
-    int avg_hay = 0;
-    
-    repeat(i, len) {
-        int a; cin >> a;
-        farms[i].hay = a;
-        avg_hay += a;
-    }
-    avg_hay /= len;
-    // make each item of farms the difference from avg_hay
-    repeat(i, len) farms[i].hay -= avg_hay;
-    
-    repeat(i, len - 1) {
-        int a, b; cin >> a >> b;
-        farms[a - 1].connect(b - 1);
-    }
-    
-    // find the branches
-    for_range(i, 1, len, 1) {
-        if (farms[i].roads == 1) branches.insert(i);
-    }
-    while (!branches.empty()) {
-        trim_branches();
-    }
-    
-    // print out the answer
-    cout << moves.size() << endl;
-    repeat(i, moves.size()) {
-        int farm1, farm2, hay; tie(farm1, farm2, hay) = moves[i];
-        if (hay == 0) continue;
-        farm1++, farm2++;
-        if (hay < 0) cout << farm2 << " " << farm1 << " " << -hay << endl;
-        else cout << farm1 << " " << farm2 << " " << hay << endl;
+
+    int cases;
+    cin >> cases;
+
+    repeat(i, cases) {
+        string input, output;
+        cin >> input >> output;
+
+        cout << problem(input, output) << endl;
     }
 }
 
-// next
-#include <bits/stdc++.h>
-using namespace std;
-
-using ll = long long;
-using ld = long double;
-using ull = unsigned long long;
-
-#define repeat(_i, _x) for(int _i = 0; _i < (_x); ++_i)
-#define for_range(_i, _start, _end, _itr) for (int _i = (_start); _i < (_end); _i += _itr)
-
-void setIO(const string str = "") {
-    ios::sync_with_stdio(false);
-#ifdef LOCAL // compile with -DLOCAL
-    cout << "compiled locally" << endl;
-    if (str.empty()) freopen("test.in", "r", stdin);
-    else {
-        freopen((str + ".in").c_str(), "r", stdin);
-    }
-#else
-    if (!str.empty()) { 
-        freopen((str + ".in").c_str(),"r",stdin);
-        freopen((str + ".out").c_str(),"w",stdout);
-    }
-#endif
-}
-
-#define _range(_x) _x.begin(), _x.end()
-#define _rrange(_x) _x.rbegin(), _x.rend()
-
-vector<short> diff;
-unordered_set<short> fours; 
-
-void calc_primes(int max) {
-    vector<bool> is_prime(max + 1, true);
-    int last_prime = 1;
-    for (int i = 2; i <= max; i++) {
-        if (is_prime[i]) {
-            last_prime = i;
-            fours.insert(i + 4);
-            for (int j = i * i; j <= max; j += i) {
-                is_prime[j] = false;
-            }
-        }
-        diff[i] = last_prime - i;
-    }
-}
-
-short lower_prime(short i) {
-    return i + diff[i];
-}
-
-short minimax(short n, short depth, bool john) {
-    if (n == 0) return john ? -1 : 1;
-    if (depth == 0) return 0;
-    
-    short watch = john ? 1 : -1;
-    bool zero= false;
-    for (short _n = lower_prime(n); _n >= 1; _n--) {
-        short ret = minimax(n - _n, depth - 1, !john);
-        if (ret == watch) return watch;
-        if (ret == 0) zero = true;
-    }
-    return zero ? 0 : -watch;
-}
-
-pair<short, bool> room(short n) {
-    if (n == 0) return {0, false};
-    if (diff[n] == 0) return {0, true};
-    
-    int ret = 0, depth;
-    for (depth = 0; ret == 0; depth++) {
-        ret = minimax(n, depth, true);
-    }
-    // cout << depth << " " << ret << endl;
-    return {depth / 2, ret == 1};
-}
-
-bool solve(vector<int>& rooms) {
-    // instantly resolved
-    for (auto num : rooms) {
-        // if the number is 0 lose
-        if (num == 0) return false;
-        // if the number is prime win
-        if (diff[num] == 0) return true;
-    }
-    
-    short min_turns = SHRT_MAX;
-    bool result;
-    repeat (i, rooms.size()) {
-        short turns; bool won;
-        tie(turns, won) = room(rooms[i]);
-        if (turns < min_turns) {
-            min_turns = turns;
-            result = won;
-        }
-    }
-    return result;
-}
-
-int main() {
-    setIO();
-    
-    int tests;
-    cin >> tests; 
-    
-    vector<vector<int>> rooms(tests);
-    
-    int max = 0;
-    repeat(i, tests) {
-        int len;
-        cin >> len;
-        rooms[i].resize(len);
-        repeat(j, len) {
-            cin >> rooms[i][j];
-            if (rooms[i][j] > max) {
-                max = rooms[i][j];
-            }
-        }
-    }
-    
-    // max = 100;
-    diff.resize(max + 1);
-    calc_primes(max);
-    
-    pair<short, bool> ret;
-    // ret = room(4);
-    // ret = room(6);
-    // ret = room(93);
-    
-    for (auto& room : rooms) {
-        cout << (solve(room) ? "Farmer John" : "Farmer Nhoj") << endl;
-    }
-}
+5
+abc
+abc
+BBC
+ABC
+abc
+bbc
+ABCD
+BACD
+ABCDEFGIHHHHMMM
+BCDAABCHHHHHMMM
