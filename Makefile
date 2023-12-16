@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -DLOCAL -fdiagnostics-color=always -g -std=c++17 -Wall
+CXXFLAGS = -DLOCAL -fdiagnostics-color=always -ggdb -fno-omit-frame-pointer -fsanitize=address -lrt -std=c++17 -Wall
 OBJDIR = build
 SRC = $(wildcard boilerplate/*.cpp finished/*/*.cpp finished/*/*/*.cpp workspace/*.cpp)
 OBJS = $(SRC:%.cpp=$(OBJDIR)/%.o)
@@ -15,4 +15,4 @@ $(OBJDIR)/%.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJDIR)/*.o $(OBJDIR)/*
+	rm -rf $(OBJDIR)/*

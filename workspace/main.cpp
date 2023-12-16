@@ -37,5 +37,7 @@ int main() {
 
     vector<int> v(len);
 
-    repeat(i, len) { cin >> v[i]; }
+    repeat(i, len) {
+        cin >> v[i];
+    }
 }
